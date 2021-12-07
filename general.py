@@ -204,6 +204,34 @@ class general(commands.Cog):
 
         textfile.close()
         await ctx.send('Done.')
+    
+    @client.command(name = "yomama", description = "sends random yo mama joke")
+    async def yomama(ctx):
+        url = "https://api.yomomma.info/"
+        res  = requests.get(url)
+        res_json = res.json()
+        joke = res_json["joke"]
+        await ctx.send(joke)
+        @client.command()
+    async def meme(ctx):
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://www.reddit.com/r/memes.json") as r:
+                memes = await r.json()
+                embed = discord.Embed(
+                color = discord.Color.purple()
+            )
+            embed.set_image(url=memes["data"]["children"][random.randint(0,25)]["data"]["url"])
+            embed.set_footer(text=f"Powered by r/memes! | Meme Requested by {ctx.author}")
+            await ctx.send(embed=embed)
+        @client.command(name = "copycat", description = "copies message and prints")
+        async def copycat(ctx, *args):
+            await ctx.send(' '.join(args))
+        @client.command(name = "8ball", aliases=["magicConch"])
+        async def ball(ctx, *, question):
+            r = ["Yes", "Maybe", "No", "Try Again Later", "Nope", "Possibly", "YEA BOI"]
+            await ctx.send(f'Question: {question}\nAnswer: {random.choice(r)} :8ball:')
+    
+   
 
 
 def setup(bot):
